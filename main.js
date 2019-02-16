@@ -1,6 +1,4 @@
-const elA = document.getElementById('A');
-const elB = document.getElementById('B');
-const resultsDiv = document.getElementById('results');
+(function() {
 
 const images = {
   'Mario': 'https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/200px-Mario_SSBU.png',
@@ -80,15 +78,20 @@ const images = {
   'Mii Gunner': 'https://www.ssbwiki.com/images/thumb/e/e5/Mii_Gunner_SSBU.png/200px-Mii_Gunner_SSBU.png',
 };
 
-const list = Object.keys(images);
-for (let i = list.length - 1; i > 0; i--) {
+const elA = document.getElementById('A');
+const elB = document.getElementById('B');
+const resultsDiv = document.getElementById('results');
+
+const unorderedList = Object.keys(images);
+// shuffle the list
+for (let i = unorderedList.length - 1; i > 0; i--) {
   const rand = Math.floor(Math.random() * (i + 1));
-  const temp = list[i];
-  list[i] = list[rand];
-  list[rand] = temp;
+  const temp = unorderedList[i];
+  unorderedList[i] = unorderedList[rand];
+  unorderedList[rand] = temp;
 }
 
-const ordered = [list.shift()];
+const orderedList = [unorderedList.shift()];
 
 let A;
 let B;
@@ -96,65 +99,61 @@ let minIndex;
 let maxIndex;
 let currIndex;
 
-function log() {
-  console.log('list:', list.join(','));
-  console.log('ordr:', ordered.join(','));
-  console.log(minIndex, currIndex, maxIndex);
-}
-
 function setupNext() {
-  if (ordered.length > 1) {
-    resultsDiv.innerHTML = ordered.map((x, i) => `${i + 1}. ${x}`).join('<br >');
+  if (orderedList.length > 1) {
+    resultsDiv.innerHTML = orderedList.map((x, i) => `${i + 1}. ${x}`).join('<br >');
   }
 
-  if (list.length === 0) {
+  if (unorderedList.length === 0) {
     elA.remove();
     elB.remove();
     return;
   }
 
-  currIndex = Math.floor(ordered.length / 2);
-
-  A = ordered[currIndex];
-  B = list.shift();
-
+  currIndex = Math.floor(orderedList.length / 2);
   minIndex = 0;
-  maxIndex = ordered.length;
+  maxIndex = orderedList.length;
 
+  updateA();
+  updateB();
+}
+
+function updateA() {
+  A = orderedList[currIndex];
   elA.src = '';
-  elB.src = '';
   elA.src = images[A];
-  elB.src = images[B];
+}
 
-  log();
+function updateB() {
+  B = unorderedList.shift();
+  elB.src = '';
+  elB.src = images[B];
 }
 
 function chooseA() {
   minIndex = currIndex + 1;
-  checkStuff();
+  update();
 }
 
 function chooseB() {
   maxIndex = currIndex;
-  checkStuff();
+  update();
 }
 
-function checkStuff() {
+function update() {
   if (minIndex === maxIndex) {
-    ordered.splice(minIndex, 0, B);
+    orderedList.splice(minIndex, 0, B);
     setupNext();
     return;
   }
 
   currIndex = Math.floor((minIndex + maxIndex) / 2);
-  A = ordered[currIndex];
-  elA.src = '';
-  elA.src = images[A];
-
-  log();
+  updateA();
 }
 
 setupNext();
 
 elA.addEventListener('click', chooseA);
 elB.addEventListener('click', chooseB);
+
+})();

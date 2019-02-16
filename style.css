@@ -19,3 +19,11 @@ img {
 img:hover {
   cursor: pointer;
 }
+
+.ineligible {
+  background-color: #ffa8a8;
+  opacity: 0.2;
+}
+.eligible {
+  background-color: #dbfdde;
+}

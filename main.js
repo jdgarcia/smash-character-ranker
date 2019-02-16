@@ -95,39 +95,49 @@ const orderedList = [unorderedList.shift()];
 
 let A;
 let B;
-let minIndex;
-let maxIndex;
+let minIndex = 0;
+let maxIndex = orderedList.length;
 let currIndex;
 
-function setupNext() {
-  if (orderedList.length > 1) {
-    resultsDiv.innerHTML = orderedList.map((x, i) => `${i + 1}. ${x}`).join('<br >');
+function update() {
+  const placementFound = minIndex === maxIndex;
+  const finished = placementFound && unorderedList.length === 0;
+
+  if (placementFound) {
+    orderedList.splice(minIndex, 0, B);
+    currIndex = Math.floor(orderedList.length / 2);
+    minIndex = 0;
+    maxIndex = orderedList.length;
+  } else {
+    currIndex = Math.floor((minIndex + maxIndex) / 2);
   }
 
-  if (unorderedList.length === 0) {
+  if (orderedList.length > 1) {
+    resultsDiv.innerHTML = orderedList
+      .map((x, i) => {
+        let className = '';
+        if (!finished) {
+          className = (i < minIndex || i >= maxIndex) ? 'ineligible' : 'eligible';
+        }
+        return `<div class="${className}">${i + 1}. ${x}</div>`;
+      })
+      .join('');
+  }
+
+  if (finished) {
     elA.remove();
     elB.remove();
-    return;
+  } else {
+    A = orderedList[currIndex];
+    elA.src = '';
+    elA.src = images[A];
+
+    if (placementFound || orderedList.length <= 1) {
+      B = unorderedList.shift();
+      elB.src = '';
+      elB.src = images[B];
+    }
   }
-
-  currIndex = Math.floor(orderedList.length / 2);
-  minIndex = 0;
-  maxIndex = orderedList.length;
-
-  updateA();
-  updateB();
-}
-
-function updateA() {
-  A = orderedList[currIndex];
-  elA.src = '';
-  elA.src = images[A];
-}
-
-function updateB() {
-  B = unorderedList.shift();
-  elB.src = '';
-  elB.src = images[B];
 }
 
 function chooseA() {
@@ -140,20 +150,9 @@ function chooseB() {
   update();
 }
 
-function update() {
-  if (minIndex === maxIndex) {
-    orderedList.splice(minIndex, 0, B);
-    setupNext();
-    return;
-  }
-
-  currIndex = Math.floor((minIndex + maxIndex) / 2);
-  updateA();
-}
-
-setupNext();
-
 elA.addEventListener('click', chooseA);
 elB.addEventListener('click', chooseB);
+
+update();
 
 })();

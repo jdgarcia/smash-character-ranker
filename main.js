@@ -78,11 +78,7 @@ const images = {
   'Mii Gunner': 'https://www.ssbwiki.com/images/thumb/e/e5/Mii_Gunner_SSBU.png/200px-Mii_Gunner_SSBU.png',
 };
 
-const elA = document.getElementById('A');
-const elB = document.getElementById('B');
-const resultsDiv = document.getElementById('results');
-
-const unorderedList = Object.keys(images);
+let unorderedList = Object.keys(images);
 // shuffle the list
 for (let i = unorderedList.length - 1; i > 0; i--) {
   const rand = Math.floor(Math.random() * (i + 1));
@@ -113,7 +109,7 @@ function update() {
   }
 
   if (orderedList.length > 1) {
-    resultsDiv.innerHTML = orderedList
+    window.results.innerHTML = orderedList
       .map((x, i) => {
         let className = '';
         if (!finished) {
@@ -125,17 +121,17 @@ function update() {
   }
 
   if (finished) {
-    elA.remove();
-    elB.remove();
+    window.buttonA.remove();
+    window.buttonB.remove();
   } else {
     A = orderedList[currIndex];
-    elA.src = '';
-    elA.src = images[A];
+    window.imgA.src = '';
+    window.imgA.src = images[A];
 
     if (placementFound || orderedList.length <= 1) {
       B = unorderedList.shift();
-      elB.src = '';
-      elB.src = images[B];
+      window.imgB.src = '';
+      window.imgB.src = images[B];
     }
   }
 }
@@ -150,8 +146,8 @@ function chooseB() {
   update();
 }
 
-elA.addEventListener('click', chooseA);
-elB.addEventListener('click', chooseB);
+window.buttonA.addEventListener('click', chooseA);
+window.buttonB.addEventListener('click', chooseB);
 
 update();
 

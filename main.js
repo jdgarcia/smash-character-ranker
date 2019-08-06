@@ -73,6 +73,8 @@ const images = {
   'Isabelle': 'https://www.ssbwiki.com/images/thumb/2/2b/Isabelle_SSBU.png/200px-Isabelle_SSBU.png',
   'Incineroar': 'https://www.ssbwiki.com/images/thumb/c/c4/Incineroar_SSBU.png/200px-Incineroar_SSBU.png',
   'Piranha Plant': 'https://www.ssbwiki.com/images/thumb/f/f0/Piranha_Plant_SSBU.png/200px-Piranha_Plant_SSBU.png',
+  'Joker': 'https://www.ssbwiki.com/images/thumb/5/5c/Joker_SSBU.png/200px-Joker_SSBU.png',
+  'Hero': 'https://www.ssbwiki.com/images/thumb/0/07/Hero_SSBU.png/200px-Hero_SSBU.png',
   'Mii Brawler': 'https://www.ssbwiki.com/images/thumb/e/e4/Mii_Brawler_SSBU.png/200px-Mii_Brawler_SSBU.png',
   'Mii Swordfighter': 'https://www.ssbwiki.com/images/thumb/f/fa/Mii_Swordfighter_SSBU.png/200px-Mii_Swordfighter_SSBU.png',
   'Mii Gunner': 'https://www.ssbwiki.com/images/thumb/e/e5/Mii_Gunner_SSBU.png/200px-Mii_Gunner_SSBU.png',
